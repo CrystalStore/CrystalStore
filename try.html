@@ -3,46 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Website</title>
+    <title>Robux Tax Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        h1 {
-            color: #333;
+            margin: 50px;
         }
         button {
-            padding: 10px 20px;
+            margin: 10px;
+            padding: 15px 30px;
             font-size: 16px;
-            color: white;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 5px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #0056b3;
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
-    <h1>Hello!</h1>
-    <button id="startButton">Start</button>
-    <p id="message" style="margin-top: 20px; font-size: 18px; color: #555;"></p>
+    <h1>Robux Tax Calculator</h1>
+    <input type="text" id="prices" placeholder="Enter Robux">
+    <br><br>
+    <button onclick="calculateNCT()">Not Covered Tax</button>
+    <button onclick="calculateCT()">Covered Tax</button>
+    <div id="result"></div>
 
     <script>
-        document.getElementById('startButton').addEventListener('click', function() {
-            document.getElementById('message').innerText = 'You clicked the Start button!';
-        });
+        function parsePrices(input) {
+            // Parse the input into an array of numbers
+            return input.split(',').map(price => {
+                const parsed = parseFloat(price.trim());
+                if (isNaN(parsed)) throw new Error("Invalid input");
+                return parsed;
+            });
+        }
+
+        function calculateNCT() {
+            try {
+                const prices = parsePrices(document.getElementById("prices").value);
+                const results = prices.map(price => Math.floor(price * 0.7)); // Deduct 30% and round down
+                document.getElementById("result").innerHTML = `
+                    <p><strong>Not Covered Tax (NCT):</strong></p>
+                    <p>Robux : ${results.join(', ')}</p>
+                `;
+            } catch (error) {
+                document.getElementById("result").innerText = "Please provide valid numerical prices.";
+            }
+        }
+
+        function calculateCT() {
+            try {
+                const prices = parsePrices(document.getElementById("prices").value);
+                const results = prices.map(price => Math.ceil(price / 0.7)); // Calculate the original price and round up
+                document.getElementById("result").innerHTML = `
+                    <p><strong>Covered Tax (CT):</strong></p>
+                    <p>Robux : ${results.join(', ')}</p>
+                `;
+            } catch (error) {
+                document.getElementById("result").innerText = "Please provide valid numerical prices.";
+            }
+        }
     </script>
 </body>
 </html>
