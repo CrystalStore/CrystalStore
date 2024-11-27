@@ -78,9 +78,29 @@
         #result p.error {
             color: red;
         }
+        /* Return button styling */
+        #return-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            z-index: 10; /* Ensure the button stays on top */
+        }
+        #return-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
+    <!-- Return Button -->
+    <button id="return-button" onclick="window.location.href='main.html';">Back</button>
+
     <div class="calculator-box">
         <h1>Robux Tax Calculator</h1>
         <!-- Option to choose tax type -->
