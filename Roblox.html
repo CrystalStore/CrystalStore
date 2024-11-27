@@ -3,93 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robux Tax Calculator</title>
+    <title>Crystal Store</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-image: url('rbx.jpg'); /* Replace with your image file name */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             text-align: center;
-            margin: 50px;
+            color: #fff;
+        }
+        h1 {
+            margin-top: 20%;
+            font-size: 5rem;
+            font-weight: bold;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7), 0 0 10px rgba(255, 255, 255, 0.6);
+        }
+        .button-container {
+            margin-top: 30px;
         }
         button {
-            margin: 10px;
-            padding: 15px 30px;
-            font-size: 16px;
+            display: inline-block;
+            margin: 15px;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            border: 2px solid #fff;
+            border-radius: 25px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px); /* Adds a frosted glass effect */
         }
-        input {
-            padding: 10px;
-            font-size: 16px;
-            margin: 10px;
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
-        #result {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-        #result p {
-            margin: 0;
-        }
-        #result p.error {
-            color: red;
+        button a {
+            text-decoration: none;
+            color: inherit;
         }
     </style>
 </head>
 <body>
-    <h1>Robux Tax Calculator</h1>
-    <input type="text" id="price" placeholder="Enter Robux">
-    <br><br>
-    <button onclick="calculateNCT()">Not Covered Tax</button>
-    <button onclick="calculateCT()">Covered Tax</button>
-    <div id="result"></div>
-
-    <script>
-        function validateInput(input) {
-            // Trim and check for empty input
-            input = input.trim();
-            if (!input) throw new Error("Please enter a valid number.");
-            
-            // Ensure the input contains only digits and no non-numeric characters
-            if (!/^\d+$/.test(input)) throw new Error("Invalid");
-            
-            // Parse as an integer
-            const price = parseInt(input, 10);
-
-            // Ensure the number is positive
-            if (price <= 0) throw new Error("Invalid");
-            
-            return price;
-        }
-
-        function calculateNCT() {
-            try {
-                const input = document.getElementById("price").value;
-                const price = validateInput(input);
-                const result = Math.floor(price * 0.7); // Deduct 30% and round down
-                document.getElementById("result").innerHTML = `
-                    <p><strong>Not Covered Tax (NCT):</strong></p>
-                    <p>Robux Received: ${result}</p>
-                `;
-            } catch (error) {
-                document.getElementById("result").innerHTML = `
-                    <p class="error">${error.message}</p>
-                `;
-            }
-        }
-
-        function calculateCT() {
-            try {
-                const input = document.getElementById("price").value;
-                const price = validateInput(input);
-                const result = Math.ceil(price / 0.7); // Calculate the original price and round up
-                document.getElementById("result").innerHTML = `
-                    <p><strong>Covered Tax (CT):</strong></p>
-                    <p>Robux Price: ${result}</p>
-                `;
-            } catch (error) {
-                document.getElementById("result").innerHTML = `
-                    <p class="error">${error.message}</p>
-                `;
-            }
-        }
-    </script>
+    <h1>CRYSTAL STORE</h1>
+    <div class="button-container">
+        <button onclick="location.href='robux-info.html'">Robux Info</button>
+        <button onclick="location.href='calcu.html'">Calcu</button>
+        <button onclick="window.open('https://discord.com', '_blank')">Discord</button>
+        <button onclick="window.open('https://facebook.com', '_blank')">FB Page</button>
+    </div>
 </body>
 </html>
