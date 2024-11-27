@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robux Tax Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-image: url('rbx.jpg'); /* Replace with your image file name */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff; /* Adjust text color for visibility */
+        }
+        .calculator-box {
+            margin: 100px auto 0;
+            padding: 30px;
+            width: 400px;
+            height: 400px; /* Fixed size */
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 14px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 25px; /* Makes the input oblong/cylindrical */
+            width: 250px; /* Smaller width */
+            text-align: center; /* Centers the input text */
+            outline: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.2s ease-in-out;
+        }
+        input:focus {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Adds a stronger shadow on focus */
+        }
+        button {
+            margin: 10px 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result-box {
+            margin: 20px auto 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 350px; /* Fixed width */
+            height: 150px; /* Fixed height */
+            overflow: auto; /* Enables scrolling if content exceeds fixed size */
+            text-align: center;
+        }
+        #result {
+            margin: 0;
+            font-size: 18px;
+        }
+        #result p {
+            margin: 0;
+        }
+        #result p.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-box">
+        <h1>Robux Tax Calculator</h1>
+        <!-- Option to choose tax type -->
+        <div>
+            <button id="nct-button" onclick="setTaxType('NCT')">Not Covered Tax</button>
+            <button id="ct-button" onclick="setTaxType('CT')">Covered Tax</button>
+        </div>
+        <br>
+        <!-- Input for Robux -->
+        <input type="text" id="price" placeholder="Enter Robux" oninput="updateResult()">
+        <br>
+        <!-- Result Box -->
+        <div id="result-box">
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedTaxType = 'NCT'; // Default to "Not Covered Tax"
+
+        // Function to set tax type
+        function setTaxType(type) {
+            selectedTaxType = type; // Set the selected tax type
+            // Update button styles to show active selection
+            if (type === 'NCT') {
+                document.getElementById('nct-button').style.backgroundColor = '#0056b3';
+                document.getElementById('ct-button').style.backgroundColor = '#007bff';
+            } else {
+                document.getElementById('ct-button').style.backgroundColor = '#0056b3';
+                document.getElementById('nct-button').style.backgroundColor = '#007bff';
+            }
+            updateResult(); // Update the result based on current input
+        }
+
+        // Function to validate the input
+        function validateInput(input) {
+            // Trim and check for empty input
+            input = input.trim();
+            if (!input) return null;  // If input is empty, return null
+            
+            // Ensure the input contains only digits and no non-numeric characters
+            if (!/^\d+$/.test(input)) return null; // Return null for invalid input
+            
+            // Parse as an integer
+            const price = parseInt(input, 10);
+
+            // Ensure the number is positive
+            if (price <= 0) return null; // Return null for invalid input
+            
+            return price;
+        }
+
+        // Function to update result dynamically
+        function updateResult() {
+            const input = document.getElementById("price").value;
+            const price = validateInput(input);
+
+            // If no valid input, clear result and exit
+            if (price === null) {
+                document.getElementById("result").innerHTML = '';
+                return;
+            }
+
+            // Perform calculation based on the selected tax type
+            if (selectedTaxType === 'NCT') {
+                const result = Math.floor(price * 0.7); // Deduct 30% and round down
+                document.getElementById("result").innerHTML = ` 
+                    <p><strong>Not Covered Tax (NCT):</strong></p>
+                    <p>Robux Received: ${result}</p>
+                `;
+            } else if (selectedTaxType === 'CT') {
+                const result = Math.ceil(price / 0.7); // Calculate the original price and round up
+                document.getElementById("result").innerHTML = ` 
+                    <p><strong>Covered Tax (CT):</strong></p>
+                    <p>Robux Price: ${result}</p>
+                `;
+            }
+        }
+
+        // Set the default tax type to "Not Covered Tax" on page load
+        window.onload = function() {
+            document.getElementById('nct-button').style.backgroundColor = '#0056b3'; // Set default active button
+            updateResult(); // Initial result update
+        }
+    </script>
+</body>
+</html>
